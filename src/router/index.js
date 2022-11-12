@@ -1,7 +1,11 @@
 import { createRouter, createWebHistory } from 'vue-router'
+import  { auth }  from '../auth.js'
 
 // Importējam vēlamos skatus kurus gribam izmantot
 import Login from '@/views/Login.vue'
+import Songs from '@/views/Songs.vue'
+import About from '@/views/About.vue'
+import Albums from '@/views/Albums.vue'
 
 // Definējam routes datu masīvu
 // Katrs objekts iekš šī datu masīva kalpo kā rūtera adrese
@@ -11,7 +15,24 @@ const routes = [
     {
         path: '/login',
         component: Login,
-    }
+    },
+    {
+        path: '/',
+        component: Songs,
+    },
+    {
+        path: '',
+        component: Songs,
+    },
+    {
+        path: '/about',
+        component: About,
+    },
+    {
+        path: '/albums',
+        component: Albums,
+    },
+    
 ]
 
 const router = createRouter({
@@ -23,7 +44,13 @@ const router = createRouter({
 // arguments to glabā adresi uz kurieni gribam iet
 // arguments from glabā adresi no kurienes mēs nākam
 router.beforeEach((to, from) => {
-
+    if (!auth.is_authenticated && to.path != '/login'){
+        alert("going to login");
+        return "/login";
+    }
+    else if (auth.is_authenticated  && to.path == '/login'){
+        return from ? from.path : "/login";
+    }
 })
 
 export default router
