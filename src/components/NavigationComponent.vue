@@ -1,6 +1,6 @@
 <template>
     <div>
-<nav id="nav-main" class="wrapper-navigation">
+
     <ol>
         <li>
             <a href="/">SONGS</a>
@@ -12,9 +12,7 @@
             <a href="/about">ABOUT</a>
         </li>
     </ol>
-</nav>
-<div id="section-body">
-        <router-view class="section-router"></router-view>
-    </div>
+
+
 </div>
 </template>

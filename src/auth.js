@@ -6,7 +6,7 @@ export const auth = reactive({
         name : "Kaspars",
         surname: "Žēpers",
         code: "IT21071",
-        favorite_songs: []
+        favorite_songs: ["1AWNf5CLnHH4oM1hcHiVeV", "5Vfxmlc1dVQQHlRFC4M05Y"]
     },
 
 is_authenticated : true,
@@ -38,14 +38,15 @@ logout() {
 },
 
 toggleFavorite(songID) {
-    if (this.user.favorite_songs.indexOf(songID) >= 0){
-        this.user.favorite_songs.push(songID);
+    if (this.user.favorite_songs.indexOf(songID) > 0){
+        let tempo = this.user.favorite_songs.indexOf(songID)
+        this.user.favorite_songs.splice(tempo, 1);
         localStorage.favorite_songs = this.user.favorite_songs;
     }else{
-        console.log("song already in favorites")
-    };
+        this.user.favorite_songs.push(songID)
+        localStorage.favorite_songs = this.user.favorite_songs;
+    }
 },
-
 getFavoriteSongs() {
     return this.user.favorite_songs;
 }

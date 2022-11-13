@@ -41,7 +41,6 @@ export default {
             <input type="email" v-model="email" id="input-email" placeholder="E-mail" />
             <input type="password" v-model="password" id="input-password" placeholder="Password" />
             <button @click="authCall(email,password)" id="btn-submit" v-bind:disabled="(password.length<6 || email.length<1)">LOGIN</button>
-
         </form>
     </div>
 </template>
