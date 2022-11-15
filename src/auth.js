@@ -6,7 +6,7 @@ export const auth = reactive({
         name : "Kaspars",
         surname: "Žēpers",
         code: "IT21071",
-        favorite_songs: ["1AWNf5CLnHH4oM1hcHiVeV", "5Vfxmlc1dVQQHlRFC4M05Y"]
+        favorite_songs: ["5Vfxmlc1dVQQHlRFC4M05Y","7dzxHJXCcwUy9M3ztiqbum", "5Vfxmlc1dVQQHlRFC4M05Y", "5tDjiBYUsTqzd0RkTZxK7u"]
     },
 
 is_authenticated : true,
@@ -38,7 +38,7 @@ logout() {
 },
 
 toggleFavorite(songID) {
-    if (this.user.favorite_songs.indexOf(songID) > 0){
+    if (this.user.favorite_songs.indexOf(songID) > -1){
         let tempo = this.user.favorite_songs.indexOf(songID)
         this.user.favorite_songs.splice(tempo, 1);
         localStorage.favorite_songs = this.user.favorite_songs;

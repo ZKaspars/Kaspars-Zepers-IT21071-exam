@@ -18,18 +18,26 @@ export default {
             sortingBy: "none",
             doubleClick: {
                 lastID: "",
-                count : 1
+                count : 0
             },
-
         }
     },
     methods: {
+        resetClick() {
+            this.doubleClick.count = 0;
+        },
         addFavorite(songID){
             auth.toggleFavorite(songID)
         },
+       inFavorites() {
+        return this.jobs.filter ((job)=>{
+          return job.mainTag === sectionTitle;
+                })
+            },
         isFavorited(songID){
             let temp = auth.getFavoriteSongs()
-            if (temp.indexOf(songID) > 0){
+            if (temp.indexOf(songID) != -1){
+                //this.songlist?.map(object => object.id).indexOf(songID))
                 return true;
             }else{
                 return false
@@ -52,16 +60,19 @@ export default {
         selectSong(song) {
             if (this.doubleClick.lastID == song.id){
                 this.doubleClick.count++;
-                if (this.doubleClick.count == 2){
-                    player.resetNowPlaying()
-                    player.setNowPlaying(null)
+                if (this.doubleClick.count > 1){
                     player.setNowPlaying(song)
-                    this.doubleClick.count == 0;
+                    this.doubleClick.count = 0;
                 }
+                console.log(this.doubleClick.count)
             }
             else{
                 this.doubleClick.lastID = song.id;
+                this.doubleClick.count = 1;
+                setTimeout(() => this.doubleClick.count = 0, 600);
+                console.log(this.doubleClick.count)
             }
+
             },
         
         handleScroll(event) {
@@ -74,7 +85,8 @@ export default {
             auth.toggleFavorite(songID)
         },
         sorting(criteria){
-            if (criteria == null){
+            if (criteria == null ){
+                console.log ("executes")
                 return this.songlist
             }
             else if (this.sortingBy == criteria){
@@ -90,20 +102,33 @@ export default {
                     return this.songlist.sort((a, b) => (a.name > b.name ? 1 : -1));
                 }
             }
-        if (this.sortingBy == "duration"){
+            if (this.sortingBy == "duration"){
                 if (this.sortReverse == true){
                     return this.songlist.sort((a, b) => (a.duration_ms > b.duration_ms ? -1 : 1));
                 }else{
                     return this.songlist.sort((a, b) => (a.duration_ms > b.duration_ms ? 1 : -1));
                 }
             }
-        }
+        },
+        
     },
      computed: {
     filtered_songs: function() {
+        if (this.show_favorites){
         return this.songlist.filter((songs) => {
+            if(auth.getFavoriteSongs().indexOf(songs.id) != -1 && songs.name.toLowerCase()?.match(this.search?.toLowerCase())){
+                return true;
+            }else{
+                return false;
+            }
+        })
+
+  
+    }else{
+            return this.songlist.filter((songs) => {
             return songs.name.toLowerCase()?.match(this.search?.toLowerCase());
         });
+        }
         }
     }
 }
@@ -127,15 +152,13 @@ export default {
             <tr ref="header">
                 <th id="th-id" >#</th>
                 <th id="th-title" :class="{ active: sortingBy == 'title'}" @click="sorting('title')" >
-                    Title
-                    <IconCaretUp :class="{ 'flip-vertical': sortReverse}"/>
+                    Title <IconCaretUp v-if="sortingBy == 'title'" style= "stroke: red" :class="{ active: 'true', 'flip-vertical': sortReverse} "/>
                 </th>
                 
                 <th id="th-artist">Artist</th>
                 <th id="th-album">Album</th>
                 <th id="th-duration" :class="{ active: sortingBy == 'duration'}" @click="sorting('duration')">
-                    Duration
-                    <IconCaretUp :class="{ 'flip-vertical': sortReverse}"/>
+                    Duration <IconCaretUp v-if="sortingBy == 'duration'" style= "stroke: red" :class="{ 'flip-vertical': sortReverse}"/>
                 </th>
             </tr>
             <!-- Loop goes on this <tr> element -->
@@ -146,13 +169,13 @@ export default {
                     <span id="txt-index">{{index}}</span>
                 </td>
                 <td id="td-title">
-                    <img :src= "`${value?.album.images[1].url}`"/>
+                    <img :src= "`${value?.album?.images[1]?.url}`"/>
                     {{value?.name}}
                 </td>
                 <td id ="td-artist">
                     {{getArtists(value?.artists)}}
                 </td>
-                <td id="td-album">{{value?.album.name}} </td>
+                <td id="td-album">{{value?.album?.name}} </td>
                 <td id="td-duration">
                     {{getTime(value?.duration_ms)}}
                     
