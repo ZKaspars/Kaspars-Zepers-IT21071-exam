@@ -1,19 +1,30 @@
+<script>
+export default{
+    data(){
+        return{
+            links : [
+                {
+                    path: "/",
+                    name: "SONGS"
+                },
+                {
+                    path: "/albums",
+                    name: "ALBUMS"
+                },
+                {
+                    path: "/about",
+                    name: "ABOUT"
+                }
+
+            ]
+        }
+    }
+}
+</script>
 <template>
     <nav id="nav-main" class="wrapper-navigation">
-    
-
-    <ol>
-        <li>
-            <a href="/">SONGS</a>
-        </li>
-        <li>
-            <a href="/albums">ALBUMS</a>
-        </li>
-        <li>
-            <a href="/about">ABOUT</a>
-        </li>
+    <ol v-for="value in this.links">
+        <router-link :to=value.path> {{value.name}} </router-link>
     </ol>
-
-
 </nav>
 </template>

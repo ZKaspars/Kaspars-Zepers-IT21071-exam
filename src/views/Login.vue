@@ -12,22 +12,11 @@ export default {
   },
   methods: {
     authCall(email, password){
-       // alert(`${email}, ${password}`)
         auth.authenticate(email,password);
     }
   }
 }
-  
- /* computed: {
-    inputsReceived() {
-     if (email.length() > 0 && password.length() > 6){
-       return false;
-    }else{
-        return true;
-     }
-    }
-  }
-}*/
+
 </script>
 
 

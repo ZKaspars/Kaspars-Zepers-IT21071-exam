@@ -10,13 +10,13 @@ export default {
         }
     },
     methods:{
-        getArtists(list){
+        getArtists(list){ // returns all artists in one line
             return list?.map(artist => artist.name).join(', ');
         },
-        toggleEdit(){
+        toggleEdit(){ // toggles editing mode
             this.editing = !this.editing
         },
-        checkFavorites(){
+        checkFavorites(){ // checks if there is atleast 1 song in favorites
             if (auth.user.favorite_songs.length < 1){
                 return false
             }else{
@@ -32,23 +32,23 @@ export default {
         getCode(){
             return auth.user.code
         },
-        getText(){
+        getText(){ // changes button text based on mode
             if(this.editing){
                 return "Cancel"
             }else{
                 return "Edit"
             }
         },
-        saveData(nameField,surnameField,codeField){
-            auth.setUserData(nameField,surnameField,codeField)
+        saveData(name,surname,code){ // changes user data after clicking save
+            auth.setUserData(name,surname,code)
         }
     },
     computed:{
-        return_favorites: function() {
+        return_favorites: function() { // returns favorites
             let favArray = [];     
-            songs.forEach(elem =>{
+            songs.forEach(elem =>{ // for each song, check if song id can be found
                 if(auth.user.favorite_songs.indexOf(elem.id) != -1){
-                    favArray.push(elem)
+                    favArray.push(elem) // if can be found (id != -1) push it into array
                     }
             })
             return favArray;
@@ -84,7 +84,7 @@ export default {
         <div class="wrapper-songs">
             <label>FAVORITE SONGS</label>
             <ul v-if="checkFavorites()">
-                <li v-for="(value, key, index) in return_favorites">
+                <li v-for="(value) in return_favorites">
                     <img :src= "`${value?.album?.images[1]?.url}`" id="img-album" />
                     <div class="song-info">
                         <p id="txt-song" class="song-name">{{value.name}}</p>
