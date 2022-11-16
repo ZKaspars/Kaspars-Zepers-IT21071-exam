@@ -14,21 +14,12 @@ export default{
 </script>
 
 <template>
-    <Header v-if=authCheck>
-<h1> logged </h1>
-    </Header>
-
-
+    <Header v-if=authCheck ></Header>
     <div id="section-body">
-        <nav id="nav-main">
-    <NavigationComponent v-if="authCheck">
-
-</NavigationComponent>
-</nav>
-<div id="section-player" v-if="authCheck">
+        <NavigationComponent v-if=authCheck ></NavigationComponent>
+        <router-view class="section-router"></router-view>
+    </div>
+    <div v-if=authCheck id="section-player">
         <AudioPlayer />
     </div>
-    <router-view class="section-router"></router-view>
-    </div>
-
 </template>

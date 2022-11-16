@@ -1,5 +1,6 @@
 <template>
-    <div>
+    <nav id="nav-main" class="wrapper-navigation">
+    
 
     <ol>
         <li>
@@ -14,5 +15,5 @@
     </ol>
 
 
-</div>
+</nav>
 </template>

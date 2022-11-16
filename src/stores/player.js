@@ -3,6 +3,7 @@ import { reactive } from 'vue'
 export const player = reactive({
     playlist   : [],
     now_playing: {}, // SONG OBJECT
+
     setPlaylist(songs) {
         this.playlist = songs;
     },
@@ -11,6 +12,14 @@ export const player = reactive({
     },
     getNowPlayingSongId() {
         return this.now_playing?.id;
+    },
+    getNowPlayingSongIndex(){
+        let i = 0;
+        for(i = 0 ; i < this.playlist.length;i++){
+            if (this.getNowPlayingSongId()== this.playlist[i].id){
+                return i
+            }
+        }
     },
     getNowPlaying() {
         return this.now_playing;
@@ -31,17 +40,17 @@ export const player = reactive({
         return this.now_playing?.preview_url;
     },
     getNextSong(){
-        const index = this.playlist.indexOf(this.now_playing?.id);
-        if (this.playlist[index+1] != -1){
-            return this.playlist[index+1];
+        let saved = this.getNowPlayingSongIndex()
+        if (this.playlist[saved+1] != -1){
+            return this.playlist[saved+1];
         }else{
             return false;
         }
     },
     getPreviousSong() {
-        const index = this.playlist.indexOf(this.now_playing?.id);
-        if (this.playlist[index-1] != -1){
-            return this.playlist[index-1];
+        let saved = this.getNowPlayingSongIndex()
+        if (this.playlist[saved-1] != -1){
+            return this.playlist[saved-1];
         }else{
             return false;
         }

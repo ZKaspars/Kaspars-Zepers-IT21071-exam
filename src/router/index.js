@@ -45,7 +45,6 @@ const router = createRouter({
 // arguments from glabā adresi no kurienes mēs nākam
 router.beforeEach((to, from) => {
     if (!auth.is_authenticated && to.path != '/login'){
-        alert("going to login");
         return "/login";
     }
     else if (auth.is_authenticated  && to.path == '/login'){

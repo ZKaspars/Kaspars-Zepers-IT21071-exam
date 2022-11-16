@@ -9,7 +9,7 @@ export const auth = reactive({
         favorite_songs: ["5Vfxmlc1dVQQHlRFC4M05Y","7dzxHJXCcwUy9M3ztiqbum", "5Vfxmlc1dVQQHlRFC4M05Y", "5tDjiBYUsTqzd0RkTZxK7u"]
     },
 
-is_authenticated : true,
+is_authenticated : localStorage.is_authenticated ?? false,
 
 setUserData(name, surname, code) {
     this.name = user.name;

@@ -1,5 +1,4 @@
 <script>
-import { reactive } from 'vue'
 import songs from "../data/songs.js"
 import IconCaretUp from "../components/icons/IconCaretUp.vue";
 import IconHeart from "../components/icons/IconHeart.vue";
@@ -9,6 +8,9 @@ import {auth} from '../auth.js'
 
 export default {
     components: { IconCaretUp, IconPlay, IconHeart },
+    mounted() {
+        
+    },
     data(){
         return{
             songlist : songs,
@@ -127,8 +129,8 @@ export default {
     }else{
             return this.songlist.filter((songs) => {
             return songs.name.toLowerCase()?.match(this.search?.toLowerCase());
-        });
-        }
+                });
+            }
         }
     }
 }
@@ -161,11 +163,9 @@ export default {
                     Duration <IconCaretUp v-if="sortingBy == 'duration'" style= "stroke: red" :class="{ 'flip-vertical': sortReverse}"/>
                 </th>
             </tr>
-            <!-- Loop goes on this <tr> element -->
-
-                <tr class="song" v-for="(value, key, index) in filtered_songs " @click= "selectSong(value) ">
-                <td id= " td-index ">
-                    <div v-if="(playActivated() == value?.id)"><IconPlay/></div>
+                <tr class="song" v-for="(value, key, index) in filtered_songs " :class="{active: playActivated() == value?.id}" @click= "selectSong(value)">
+                <td id= "td-index">
+                    <div v-if="(playActivated() == value?.id)" ><IconPlay/></div>
                     <span id="txt-index">{{index}}</span>
                 </td>
                 <td id="td-title">
@@ -178,11 +178,8 @@ export default {
                 <td id="td-album">{{value?.album?.name}} </td>
                 <td id="td-duration">
                     {{getTime(value?.duration_ms)}}
-                    
                         <IconHeart :class="{ active : isFavorited(value?.id)}" @click="toggleFavorites(value.id)"/>
-                    
                 </td>
-            
             </tr>
         </table>
     </div>
